@@ -18,10 +18,10 @@ async def alert(*kargs, **kwargs):
     title = request.json['title']
     content = request.json['content']
 
-    text = "\n".join([title, '-'*10, content])
+    text = "\n".join([f"<b>{title}</b>", content])
 
     async with bot:
-        for user_id in os.getenv("RECEIVER_ID", default="").split()
-            await bot.send_message(text=text, chat_id=user_id)
+        for user_id in os.getenv("RECEIVER_ID", default="").split():
+            await bot.send_message(text=text, chat_id=user_id, parse_mode=telegram.constants.ParseMode.HTML)
 
     return {"status": "OK"}, 200
