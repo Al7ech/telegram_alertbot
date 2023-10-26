@@ -19,7 +19,7 @@ Send telegram alert messages when endpoint is called.
     RECEIVER_ID: list of user id's seperated by whitespace.
     AUTH_USERNAME: username for HTTP Basic Auth.
     AUTH_PASSWORD: password for HTTP Basic Auth.
-    ENDPOINT(Optional): endpoint name to call
+    ENDPOINT(Optional): endpoint name to call (default: /alert)
     ```
 2. Run
    
