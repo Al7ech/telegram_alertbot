@@ -1,4 +1,5 @@
 import os
+import urllib
 from flask import Flask, request
 import telegram
 
@@ -15,13 +16,13 @@ async def alert(*kargs, **kwargs):
     if not auth or not check_auth(auth.username, auth.password):
         return {'message': 'Authentication required'}, 401
 
-    title = request.json['title']
-    content = request.json['content']
+    title = urllib.parse.unquote_plus(request.json['title'])
+    content = urllib.parse.unquote_plus(request.json['content'])
 
-    text = "\n".join([f"<b>{title}</b>", content])
+    text = "\n".join([f"*{title}*", f"```{content}```"])
 
     async with bot:
         for user_id in os.getenv("RECEIVER_ID", default="").split():
-            await bot.send_message(text=text, chat_id=user_id, parse_mode=telegram.constants.ParseMode.HTML)
+            await bot.send_message(text=text, chat_id=user_id, parse_mode=telegram.constants.ParseMode.MARKDOWN_V2)
 
     return {"status": "OK"}, 200
