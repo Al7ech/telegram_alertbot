@@ -3,6 +3,6 @@ services:
     build:
       context: .
     env_file:
-      config.env
+      .env
     ports:
-      - 8000:5000
+      - ${PORT}:5000
