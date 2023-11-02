@@ -16,10 +16,13 @@ async def alert(*kargs, **kwargs):
     if not auth or not check_auth(auth.username, auth.password):
         return {'message': 'Authentication required'}, 401
 
-    title = urllib.parse.unquote_plus(request.json['title'])
-    content = urllib.parse.unquote_plus(request.json['content'])
+    title = request.json['title']
+    content = request.json['content']
 
-    text = "\n".join([f"*{title}*", f"```{content}```"])
+    for c in ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']:
+        content = content.replace(c, f'\\{c}')
+
+    text = "\n".join([f"*{title}*", f"{content}"])
 
     async with bot:
         for user_id in os.getenv("RECEIVER_ID", default="").split():
