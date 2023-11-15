@@ -32,7 +32,7 @@ async def alert(*kargs, **kwargs):
 
         return {"status": "OK"}, 200
 
-    except exception as e:
+    except Exception as e:
         print(str(e))
         traceback.print_exc()
 
